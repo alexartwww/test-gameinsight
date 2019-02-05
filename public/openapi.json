@@ -1,0 +1,168 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "TestGameInsight",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://testgameinsight",
+      "description": "Dev-server"
+    }
+  ],
+  "paths": {
+    "/gifts/{user_id}/{day_id}": {
+      "post": {
+        "summary": "Отправить подарок другу",
+        "operationId": "sendGift",
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "day_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "friend_id": {
+                    "type": "string"
+                  },
+                  "gift_id": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Успех",
+            "content": {
+              "application/json": {
+                "schema": {
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/ErrorList"
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorList"
+          }
+        }
+      }
+    },
+    "/gifts/{user_id}": {
+      "get": {
+        "summary": "Получение списка своих подарков",
+        "operationId": "getGifts",
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "Успех",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/ErrorList"
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorList"
+          }
+        }
+      },
+      "put": {
+        "summary": "Добавление расписания самолета с пересадками",
+        "operationId": "get",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Создан",
+            "content": {
+              "application/json": {
+                "schema": {
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorList"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Error": {
+        "properties": {
+          "field": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ErrorList": {
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        },
+        "type": "object"
+      }
+    },
+    "responses": {
+      "ErrorList": {
+        "description": "Ошибка валидации",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorList"
+            }
+          }
+        }
+      }
+    }
+  }
+}
