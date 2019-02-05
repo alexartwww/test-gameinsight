@@ -39,12 +39,12 @@ class Gift
         $sth = $this->dbh->prepare('
             SELECT
               id,
-              friend_id,
+              user_id AS friend_id,
               gift_id
             FROM
               gifts
             WHERE
-              user_id = :user_id
+              friend_id = :user_id
               AND is_valid = 1
               AND is_taken = 0');
         $sth->execute([':user_id' => $userId]);
@@ -60,7 +60,7 @@ class Gift
               `is_taken` = 1
             WHERE
               `id` = :id
-              AND `user_id` = :user_id
+              AND `friend_id` = :user_id
               AND `is_taken` = 0
               AND `is_valid` = 1');
         return $sth->execute([
