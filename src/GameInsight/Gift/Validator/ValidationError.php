@@ -14,7 +14,7 @@ class ValidationError
         $this->message = $message;
     }
 
-    public function setMessage(string $message)
+    public function setMessage(string $message): ValidationError
     {
         $this->message = $message;
         return $this;
@@ -25,7 +25,7 @@ class ValidationError
         return $this->message;
     }
 
-    public function setField(string $field)
+    public function setField(string $field): ValidationError
     {
         $this->field = $field;
         return $this;

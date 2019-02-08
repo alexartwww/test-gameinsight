@@ -1,0 +1,63 @@
+GET http://testgameinsight/
+Accept: application/json
+Cookie: XDEBUG_SESSION=17491
+X-Authorization: secRetc0de
+
+<> 2019-02-08T090039.404.json
+<> 2019-02-05T114755.404.json
+<> 2019-02-05T114743.404.json
+<> 2019-02-05T114729.404.json
+
+###
+
+GET http://testgameinsight/gifts/Brian-May
+Accept: application/json
+Cookie: XDEBUG_SESSION=13024
+X-Authorization: secRetc0de
+
+<> 2019-02-08T103358.200.json
+<> 2019-02-08T103303.404.json
+<> 2019-02-08T103236.404.json
+<> 2019-02-08T102458.404.json
+<> 2019-02-08T102448.404.json
+<> 2019-02-08T102416.404.json
+<> 2019-02-08T102329.404.json
+<> 2019-02-08T102258.404.json
+<> 2019-02-08T102247.404.json
+<> 2019-02-08T094402.200.json
+<> 2019-02-08T092046.200.json
+<> 2019-02-08T091040.200.json
+<> 2019-02-08T091025.200.json
+<> 2019-02-08T090142.200.json
+<> 2019-02-05T115740.200.json
+<> 2019-02-05T115600.200.html
+<> 2019-02-05T115104.504.html
+<> 2019-02-05T114927.404.json
+<> 2019-02-05T114755.404.json
+<> 2019-02-05T114743.404.json
+<> 2019-02-05T114729.404.json
+
+###
+
+POST http://testgameinsight/gifts/Brian-May/17927
+Accept: application/json
+Cookie: XDEBUG_SESSION=13330
+X-Authorization: secRetc0de
+
+{"friend_id": "Paul-Gilbert", "gift_id": 1984}
+
+<> 2019-02-08T112629.201.json
+<> 2019-02-08T112612.201.json
+<> 2019-02-08T112603.201.json
+<> 2019-02-08T112536.201.json
+<> 2019-02-08T112529.201.json
+<> 2019-02-08T112427.201.json
+<> 2019-02-08T112407.201.json
+<> 2019-02-08T112343.201.json
+<> 2019-02-08T112303.201.json
+<> 2019-02-08T112254.201.json
+<> 2019-02-08T112137.201.json
+<> 2019-02-08T112116.201.json
+<> 2019-02-08T112036.201.json
+
+###

@@ -5,30 +5,20 @@ namespace GameInsight\Gift\Http;
 
 class Request
 {
-    protected $globals;
     protected $server;
-    protected $request;
     protected $post;
     protected $get;
-    protected $files;
-    protected $env;
     protected $cookie;
-    protected $session;
     protected $params=[];
     protected $body;
 
-    public function __construct($globals, $server, $request, $post, $get, $files, $env, $cookie, $session)
+    public function __construct($server, $post, $get, $cookie, $body)
     {
-        $this->globals = $globals;
         $this->server = $server;
-        $this->request = $request;
         $this->post = $post;
         $this->get = $get;
-        $this->files = $files;
-        $this->env = $env;
         $this->cookie = $cookie;
-        $this->session = $session;
-        $this->body = file_get_contents('php://input');
+        $this->body = $body;
     }
 
     public function setParams(array $params): Request
@@ -57,7 +47,7 @@ class Request
         return $this->server[$name] ?? '';
     }
 
-    public function getPostJsonValue(string $name): string
+    public function getPostJsonValue(string $name)
     {
         $jsonBody = json_decode($this->body, true);
         return $jsonBody[$name] ?? '';

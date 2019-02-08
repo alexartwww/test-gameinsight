@@ -6,10 +6,18 @@ namespace GameInsight\Gift\Domain;
 class Gift
 {
     protected $dbh;
+    protected $expireDay = 7;
 
-    public function __construct(\PDO $dbh)
+    public function __construct(\PDO $dbh, int $expireDay)
     {
         $this->dbh = $dbh;
+        $this->expireDay = $expireDay;
+    }
+
+    public function setExpireDay(int $expireDay): Gift
+    {
+        $this->expireDay = $expireDay;
+        return $this;
     }
 
     public function send(string $userId, int $dayId, string $friendId, int $giftId): bool
@@ -25,12 +33,14 @@ class Gift
               `is_valid`
             )
             VALUES
-              (DEFAULT, :user_id, :day_id, :friend_id, :gift_id, 0, 1)');
+              (DEFAULT, :user_id, :day_id, :friend_id, :gift_id, :is_taken, :is_valid)');
         return $sth->execute([
             ':user_id' => $userId,
             ':day_id' => $dayId,
             ':friend_id' => $friendId,
-            ':gift_id' => $giftId
+            ':gift_id' => $giftId,
+            ':is_taken' => 0,
+            ':is_valid' => ($dayId >= intval(time()/86400) - $this->expireDay) ? 1 : 0,
         ]);
     }
 
@@ -38,17 +48,23 @@ class Gift
     {
         $sth = $this->dbh->prepare('
             SELECT
-              id,
-              user_id AS friend_id,
-              gift_id
+              `id`,
+              `user_id` AS friend_id,
+              `gift_id`
             FROM
-              gifts
+              `gifts`
             WHERE
-              friend_id = :user_id
-              AND is_valid = 1
-              AND is_taken = 0');
+              `friend_id` = :user_id
+              AND `is_valid` = 1
+              AND `is_taken` = 0');
         $sth->execute([':user_id' => $userId]);
-        return $sth->fetchAll(\PDO::FETCH_ASSOC);
+        $result = [];
+        while($row = $sth->fetch (\PDO::FETCH_ASSOC)) {
+            $row['id'] = intval($row['id']);
+            $row['gift_id'] = intval($row['gift_id']);
+            $result[] = $row;
+        }
+        return $result;
     }
 
     public function take(string $userId, int $id): bool
@@ -81,7 +97,7 @@ class Gift
               AND `is_taken` = 0
               AND `is_valid` = 1');
         return $sth->execute([
-            ':day_id' => $currentDayId - 7,
+            ':day_id' => $currentDayId - $this->expireDay,
         ]);
     }
 }

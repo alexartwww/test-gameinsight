@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 namespace GameInsight\Gift\Action;
+
 use GameInsight\Gift\Http\Request;
 use GameInsight\Gift\Http\Response;
 

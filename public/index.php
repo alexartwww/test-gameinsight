@@ -1,6 +1,7 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
+use \GameInsight\Gift\Config;
 use \GameInsight\Gift\Action\GetGifts;
 use \GameInsight\Gift\Action\SendGift;
 use \GameInsight\Gift\Action\TakeGift;
@@ -20,13 +21,10 @@ use \GameInsight\Gift\Domain\GiftException;
 use \GameInsight\Gift\Domain\Gift;
 
 try {
-    $request = new Request($GLOBALS, $_SERVER, $_REQUEST, $_POST, $_GET, $_FILES, $_ENV, $_COOKIE, $_SESSION);
+    $request = new Request($_SERVER, $_POST, $_GET, $_COOKIE, file_get_contents('php://input'));
     $response = new Response();
 
-    $dsn = 'mysql:dbname=gameinsightgift;host=mysql';
-    $user = 'gameinsightgift';
-    $password = '1234';
-    $gift = new Gift(new \PDO($dsn, $user, $password));
+    $gift = new Gift(new \PDO(Config::$db['dsn'], Config::$db['user'], Config::$db['password']), Config::$expireDays);
 
     $sendGiftAction = new SendGift(
         $gift,

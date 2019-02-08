@@ -44,17 +44,9 @@ RUN \
       php7.0-fpm\
       php7.0-curl\
       php7.0-mysql\
-      php7.0-ldap\
-      php7.0-xmlrpc\
-      php7.0-mcrypt\
-      php7.0-gd\
       php7.0-zip\
-      php-pear\
       php-xdebug\
-      php-bcmath\
-      php-memcache\
       php-mbstring\
-      php-mongodb\
       && \
       wget -O /usr/local/bin/composer https://getcomposer.org/composer.phar && \
       chmod +x /usr/local/bin/composer && \
@@ -67,9 +59,6 @@ RUN \
   DEBIAN_FRONTEND=noninteractive apt-get update && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends\
       unzip\
-      unrar-free\
-      p7zip-full\
-      mediainfo\
       curl\
       mercurial\
       git\
@@ -94,6 +83,7 @@ RUN \
   rm -f /etc/php/7.0/mods-available/xdebug.ini && \
   rm -f /etc/php/7.0/fpm/pool.d/www.conf
 
+# CODE
 COPY . .
 
 RUN \
@@ -103,7 +93,7 @@ RUN \
   rm -rf templates/modern/design/bower_components && \
   chown www-data:www-data -R .
 
-# CODE & CRON & COMPOSER & BOWER
+# CRON & COMPOSER
 USER www-data
 RUN \
   crontab crontab && \
