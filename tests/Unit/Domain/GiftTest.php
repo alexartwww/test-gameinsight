@@ -6,4 +6,5 @@ use \GameInsight\Gift\Config;
 
 class GiftTest extends TestCase
 {
+
 }

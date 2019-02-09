@@ -14,9 +14,14 @@ class Response
         return $this;
     }
 
-    public function setBodyAsArray(array $body): Response
+    public function getBody(): string
     {
-        $this->setBody(json_encode($body, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        return $this->body;
+    }
+
+    public function setBodyJson(array $body): Response
+    {
+        $this->setBody(json_encode($body, JSON_UNESCAPED_UNICODE));
         return $this;
     }
 
@@ -27,6 +32,17 @@ class Response
             'replace' => $replace,
             'http_response_code' => $http_response_code,
         ];
+        return $this;
+    }
+
+    public function getHeaders(): array
+    {
+        return $this->headers;
+    }
+
+    public function clearHeaders(): Response
+    {
+        $this->headers = [];
         return $this;
     }
 

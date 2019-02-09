@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace GameInsight\Gift\Validator;
 
+use GameInsight\Gift\Validator\Interfaces\ValidatorInterface;
+
 class ValidatorCollection implements \Iterator
 {
     private $position = 0;

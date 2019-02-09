@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace GameInsight\Gift\Domain;
 
-class Gift
+use GameInsight\Gift\Domain\Interfaces\GiftInterface;
+
+class Gift implements GiftInterface
 {
     protected $dbh;
     protected $expireDay = 7;

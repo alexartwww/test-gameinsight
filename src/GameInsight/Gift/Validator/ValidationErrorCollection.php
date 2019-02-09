@@ -37,4 +37,13 @@ class ValidationErrorCollection implements \Iterator
         $this->collection[] = $validationError;
         return $this;
     }
+
+    public function __toString()
+    {
+        $strings = [];
+        foreach ($this->collection as $validationError) {
+            $strings[] = $validationError->getField() . ': ' . $validationError->getMessage();
+        }
+        return implode("\n", $strings);
+    }
 }

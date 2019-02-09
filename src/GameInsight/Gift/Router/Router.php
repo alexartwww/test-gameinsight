@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace GameInsight\Gift\Router;
 
-use GameInsight\Gift\Action\ActionInterface;
+use GameInsight\Gift\Action\Interfaces\ActionInterface;
 use GameInsight\Gift\Http\Request;
+use GameInsight\Gift\Http\Exceptions\NotFound;
+use GameInsight\Gift\Router\Interfaces\RuleInterface;
 
 class Router
 {
@@ -14,7 +16,7 @@ class Router
     {
     }
 
-    public function addRule(Rule $rule): Router
+    public function addRule(RuleInterface $rule): Router
     {
         $this->rules[] = $rule;
         return $this;

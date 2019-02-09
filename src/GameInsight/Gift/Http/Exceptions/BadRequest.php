@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace GameInsight\Gift\Router;
+namespace GameInsight\Gift\Http\Exceptions;
 
 class BadRequest extends \Exception
 {

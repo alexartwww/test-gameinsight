@@ -63,7 +63,7 @@ try {
         ->addHeader('Status: 400 Bad Request', true, 400)
         ->addHeader('Cache-Control: no-cache,no-store,max-age=0,must-revalidate')
         ->addHeader('Content-Type: application/json')
-        ->setBodyAsArray(['status' => $exception->getCode(), 'message' => $exception->getMessage()])
+        ->setBodyJson(['status' => $exception->getCode(), 'message' => $exception->getMessage()])
         ->send();
 } catch (BadRequest $exception) {
     $response
@@ -71,7 +71,7 @@ try {
         ->addHeader('Status: 400 Bad Request', true, 400)
         ->addHeader('Cache-Control: no-cache,no-store,max-age=0,must-revalidate')
         ->addHeader('Content-Type: application/json')
-        ->setBodyAsArray(['status' => 400, 'message' => $exception->getMessage()])
+        ->setBodyJson(['status' => 400, 'message' => $exception->getMessage()])
         ->send();
 } catch (NotFound $exception) {
     $response
@@ -79,7 +79,7 @@ try {
         ->addHeader('Status: 404 Not Found', true, 404)
         ->addHeader('Cache-Control: no-cache,no-store,max-age=0,must-revalidate')
         ->addHeader('Content-Type: application/json')
-        ->setBodyAsArray(['status' => 404, 'message' => $exception->getMessage()])
+        ->setBodyJson(['status' => 404, 'message' => $exception->getMessage()])
         ->send();
 } catch (\Exception $exception) {
     $response
@@ -87,6 +87,6 @@ try {
         ->addHeader('Status: 500 Internal Server Error', true, 500)
         ->addHeader('Cache-Control: no-cache,no-store,max-age=0,must-revalidate')
         ->addHeader('Content-Type: application/json')
-        ->setBodyAsArray(['status' => 500, 'message' => $exception->getMessage()])
+        ->setBodyJson(['status' => 500, 'message' => $exception->getMessage()])
         ->send();
 }

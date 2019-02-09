@@ -44,7 +44,10 @@ RUN \
       php7.0-fpm\
       php7.0-curl\
       php7.0-mysql\
+      php7.0-xmlrpc\
+      php7.0-mcrypt\
       php7.0-zip\
+      php-pear\
       php-xdebug\
       php-mbstring\
       && \

@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace GameInsight\Gift\Router;
 
-use GameInsight\Gift\Action\ActionInterface;
-use GameInsight\Gift\Action\AbstractAction;
+use GameInsight\Gift\Action\Interfaces\ActionInterface;
 use GameInsight\Gift\Http\Request;
+use GameInsight\Gift\Router\Interfaces\RuleInterface;
 
-class Rule
+class Rule implements RuleInterface
 {
     protected $method;
     protected $uriRegExp;
@@ -35,7 +35,7 @@ class Rule
         return $params;
     }
 
-    public function getAction(Request $request): AbstractAction
+    public function getAction(Request $request): ActionInterface
     {
         $request->setParams($this->getMatchParams($request));
         return $this->action;

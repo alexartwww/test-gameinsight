@@ -4,10 +4,11 @@ declare(strict_types=1);
 namespace GameInsight\Gift\Validator;
 
 use GameInsight\Gift\Http\Request;
-use GameInsight\Gift\Validator\Interfaces\ValidatorInterface;
 
-class FriendValidator extends Validator implements ValidatorInterface
+class Validator
 {
+    protected $validationError;
+
     public function isValid(Request $request): bool
     {
         return true;
@@ -17,5 +18,4 @@ class FriendValidator extends Validator implements ValidatorInterface
     {
         return $this->validationError;
     }
-
 }

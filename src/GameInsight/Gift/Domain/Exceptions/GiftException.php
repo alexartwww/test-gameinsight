@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace GameInsight\Gift\Domain;
+namespace GameInsight\Gift\Domain\Exceptions;
 
 class GiftException extends \Exception
 {
