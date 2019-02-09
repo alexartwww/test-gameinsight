@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-use \PHPUnit\Framework\TestCase;
-use \GameInsight\Gift\Http\Request;
-use \GameInsight\Gift\Http\Exceptions\BadRequest;
+use PHPUnit\Framework\TestCase;
+use GameInsight\Gift\Http\Request;
+use GameInsight\Gift\Http\Exceptions\BadRequest;
 
 class RequestTest extends TestCase
 {

@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-use \PHPUnit\Framework\TestCase;
-use \GameInsight\Gift\Router\Router;
-use \GameInsight\Gift\Http\Request;
-use \GameInsight\Gift\Http\Response;
-use \GameInsight\Gift\Http\Exceptions\NotFound;
+use PHPUnit\Framework\TestCase;
+use GameInsight\Gift\Router\Router;
+use GameInsight\Gift\Http\Request;
+use GameInsight\Gift\Http\Response;
+use GameInsight\Gift\Http\Exceptions\NotFound;
 
 class RouterTest extends TestCase
 {

@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-use \PHPUnit\Framework\TestCase;
-use \GuzzleHttp\Client;
-use \GuzzleHttp\RequestOptions;
-use \GameInsight\Gift\Config;
+use PHPUnit\Framework\TestCase;
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+use GameInsight\Gift\Config;
 
 class ApiTest extends TestCase
 {

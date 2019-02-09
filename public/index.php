@@ -1,24 +1,24 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
-use \GameInsight\Gift\Config;
-use \GameInsight\Gift\Action\GetGifts;
-use \GameInsight\Gift\Action\SendGift;
-use \GameInsight\Gift\Action\TakeGift;
-use \GameInsight\Gift\Validator\ValidatorCollection;
-use \GameInsight\Gift\Validator\GiftValidator;
-use \GameInsight\Gift\Validator\UserValidator;
-use \GameInsight\Gift\Validator\FriendValidator;
-use \GameInsight\Gift\Validator\DayValidator;
-use \GameInsight\Gift\Validator\AuthValidator;
-use \GameInsight\Gift\Router\Router;
-use \GameInsight\Gift\Router\Rule;
-use \GameInsight\Gift\Http\Request;
-use \GameInsight\Gift\Http\Response;
-use \GameInsight\Gift\Router\BadRequest;
-use \GameInsight\Gift\Router\NotFound;
-use \GameInsight\Gift\Domain\GiftException;
-use \GameInsight\Gift\Domain\Gift;
+use GameInsight\Gift\Config;
+use GameInsight\Gift\Action\GetGifts;
+use GameInsight\Gift\Action\SendGift;
+use GameInsight\Gift\Action\TakeGift;
+use GameInsight\Gift\Validator\ValidatorCollection;
+use GameInsight\Gift\Validator\GiftValidator;
+use GameInsight\Gift\Validator\UserValidator;
+use GameInsight\Gift\Validator\FriendValidator;
+use GameInsight\Gift\Validator\DayValidator;
+use GameInsight\Gift\Validator\AuthValidator;
+use GameInsight\Gift\Router\Router;
+use GameInsight\Gift\Router\Rule;
+use GameInsight\Gift\Http\Request;
+use GameInsight\Gift\Http\Response;
+use GameInsight\Gift\Http\Exceptions\BadRequest;
+use GameInsight\Gift\Http\Exceptions\NotFound;
+use GameInsight\Gift\Domain\Exceptions\GiftException;
+use GameInsight\Gift\Domain\Gift;
 
 try {
     $request = new Request($_SERVER, $_POST, $_GET, $_COOKIE, file_get_contents('php://input'));

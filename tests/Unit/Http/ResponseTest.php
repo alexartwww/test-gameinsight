@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
 
-use \PHPUnit\Framework\TestCase;
-use \GameInsight\Gift\Http\Response;
+use PHPUnit\Framework\TestCase;
+use GameInsight\Gift\Http\Response;
 
 class ResponseTest extends TestCase
 {
