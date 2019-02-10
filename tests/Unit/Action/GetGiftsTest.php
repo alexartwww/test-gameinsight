@@ -9,8 +9,14 @@ use GameInsight\Gift\Http\Exceptions\BadRequest;
 use GameInsight\Gift\Validator\ValidationError;
 use GameInsight\Gift\Action\GetGifts;
 
+/**
+ * Class GetGiftsTest
+ */
 class GetGiftsTest extends TestCase
 {
+    /**
+     * @throws BadRequest
+     */
     public function testPositive()
     {
         $data = [['id' => 1, 'friend_id' => 'Jimi-Hendrix', 'gift_id' => 1]];
@@ -34,7 +40,7 @@ class GetGiftsTest extends TestCase
         $this->assertEquals(json_encode([
             'status' => 0,
             'data' => $data,
-        ],JSON_UNESCAPED_UNICODE), $body);
+        ], JSON_UNESCAPED_UNICODE), $body);
         $this->assertEquals([
             ['header' => 'HTTP 1.1 200 OK', 'replace' => true, 'http_response_code' => 200],
             ['header' => 'Status: 200 OK', 'replace' => true, 'http_response_code' => 200],
@@ -43,6 +49,9 @@ class GetGiftsTest extends TestCase
         ], $headers);
     }
 
+    /**
+     * @throws BadRequest
+     */
     public function testNegative()
     {
         $data = [['id' => 1, 'friend_id' => 'Jimi-Hendrix', 'gift_id' => 1]];

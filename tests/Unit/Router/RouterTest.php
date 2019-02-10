@@ -7,8 +7,14 @@ use GameInsight\Gift\Http\Request;
 use GameInsight\Gift\Http\Response;
 use GameInsight\Gift\Http\Exceptions\NotFound;
 
+/**
+ * Class RouterTest
+ */
 class RouterTest extends TestCase
 {
+    /**
+     * @throws NotFound
+     */
     public function testPositive()
     {
         $request = new Request();
@@ -33,6 +39,9 @@ class RouterTest extends TestCase
         $this->assertEquals($response, $result);
     }
 
+    /**
+     * @throws NotFound
+     */
     public function testNegative()
     {
         $request = new Request();
@@ -51,8 +60,8 @@ class RouterTest extends TestCase
         $this->expectException(NotFound::class);
         (new Router())
             ->addRule($rule)
-                ->route($request)
-                    ->validate($request)
-                        ->process($request, $response);
+            ->route($request)
+            ->validate($request)
+            ->process($request, $response);
     }
 }

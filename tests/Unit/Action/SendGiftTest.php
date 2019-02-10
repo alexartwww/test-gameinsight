@@ -9,12 +9,18 @@ use GameInsight\Gift\Http\Exceptions\BadRequest;
 use GameInsight\Gift\Validator\ValidationError;
 use GameInsight\Gift\Action\SendGift;
 
+/**
+ * Class SendGiftTest
+ */
 class SendGiftTest extends TestCase
 {
+    /**
+     * @throws BadRequest
+     */
     public function testPositive()
     {
         $data = ['friend_id' => 'Jimi-Hendrix', 'gift_id' => 1];
-        $params = ['user_id' => 'Slash', 'day_id' => strval(intval(time()/86400))];
+        $params = ['user_id' => 'Slash', 'day_id' => strval(intval(time() / 86400))];
         $request = new Request(['SERVER_PROTOCOL' => 'HTTP 1.1'], [], [], [], json_encode($data, JSON_UNESCAPED_UNICODE));
         $request->setParams($params);
         $response = new Response();
@@ -39,7 +45,7 @@ class SendGiftTest extends TestCase
 
         $this->assertEquals(json_encode([
             'status' => 0,
-        ],JSON_UNESCAPED_UNICODE), $body);
+        ], JSON_UNESCAPED_UNICODE), $body);
         $this->assertEquals([
             ['header' => 'HTTP 1.1 201 Created', 'replace' => true, 'http_response_code' => 201],
             ['header' => 'Status: 201 Created', 'replace' => true, 'http_response_code' => 201],
@@ -48,10 +54,13 @@ class SendGiftTest extends TestCase
         ], $headers);
     }
 
+    /**
+     * @throws BadRequest
+     */
     public function testNegative()
     {
         $data = ['friend_id' => 'Jimi-Hendrix', 'gift_id' => 1];
-        $params = ['user_id' => 'Slash', 'day_id' => strval(intval(time()/86400))];
+        $params = ['user_id' => 'Slash', 'day_id' => strval(intval(time() / 86400))];
         $request = new Request(['SERVER_PROTOCOL' => 'HTTP 1.1'], [], [], [], json_encode($data, JSON_UNESCAPED_UNICODE));
         $request->setParams($params);
         $response = new Response();

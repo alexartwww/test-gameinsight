@@ -5,8 +5,14 @@ use PHPUnit\Framework\TestCase;
 use GameInsight\Gift\Http\Request;
 use GameInsight\Gift\Http\Exceptions\BadRequest;
 
+/**
+ * Class RequestTest
+ */
 class RequestTest extends TestCase
 {
+    /**
+     * @throws BadRequest
+     */
     public function testParamsPositive()
     {
         $params = ['friend_id' => 'Jimi-Hendrix', 'gift_id' => '12345'];
@@ -19,6 +25,9 @@ class RequestTest extends TestCase
         }
     }
 
+    /**
+     * @throws BadRequest
+     */
     public function testParamsNegative()
     {
         $params = ['friend_id' => 'Jimi-Hendrix', 'gift_id' => '12345'];
@@ -31,6 +40,9 @@ class RequestTest extends TestCase
         $request->getParamValue($unknownParam);
     }
 
+    /**
+     * @throws BadRequest
+     */
     public function testGetPositive()
     {
         $get = ['path' => '/gifts/Brian-May', 'gift_id' => '12345'];
@@ -43,6 +55,9 @@ class RequestTest extends TestCase
         $this->assertEquals($get['path'], $request->getUri());
     }
 
+    /**
+     * @throws BadRequest
+     */
     public function testGetNegative()
     {
         $get = ['path' => '/gifts/Brian-May', 'gift_id' => '12345'];
@@ -54,6 +69,9 @@ class RequestTest extends TestCase
         $request->getGetValue($unknownParam);
     }
 
+    /**
+     * @throws BadRequest
+     */
     public function testServerPositive()
     {
         $server = ['HTTP_X_AUTHORIZATION' => 'supersecret', 'REQUEST_METHOD' => 'POST', 'VERSION' => '1234'];
@@ -67,6 +85,9 @@ class RequestTest extends TestCase
         $this->assertEquals($server['REQUEST_METHOD'], $request->getMethod());
     }
 
+    /**
+     * @throws BadRequest
+     */
     public function testServerNegative()
     {
         $server = ['HTP_X_AUTHORIZATION' => 'supersecret', 'REQUES_METHOD' => 'POST', 'VERSION' => '1234'];
@@ -82,10 +103,13 @@ class RequestTest extends TestCase
         $request->getMethod();
     }
 
+    /**
+     * @throws BadRequest
+     */
     public function testBodyPositive()
     {
         $body = '{"friend_id": "Jimi-Hendrix", "gift_id": 12345}';
-        $bodyJson = json_decode($body,true);
+        $bodyJson = json_decode($body, true);
 
         $request = new Request([], [], [], [], $body);
 
@@ -95,6 +119,9 @@ class RequestTest extends TestCase
         $this->assertEquals($body, $request->getBody());
     }
 
+    /**
+     * @throws BadRequest
+     */
     public function testBodyNegative()
     {
         $body = '{"friend_id": "Jimi-Hendrix", "gift_id": 12345}';

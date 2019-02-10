@@ -4,12 +4,18 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 use GameInsight\Gift\Domain\Gift;
 
+/**
+ * Class GiftTest
+ */
 class GiftTest extends TestCase
 {
+    /**
+     * @throws \GameInsight\Gift\Domain\Exceptions\GiftException
+     */
     public function testSend()
     {
         $userId = 'Slash';
-        $dayId = intval(time()/86400) - 4;
+        $dayId = intval(time() / 86400) - 4;
         $friendId = 'Jimi-Hendrix';
         $giftId = 12345;
         $expireDay = 7;
@@ -82,6 +88,9 @@ class GiftTest extends TestCase
         $this->assertTrue($result);
     }
 
+    /**
+     *
+     */
     public function testView()
     {
         $userId = 'Slash';
@@ -123,6 +132,9 @@ class GiftTest extends TestCase
         $this->assertEquals([['id' => 123, 'friend_id' => 'Jimi-Hendrix', 'gift_id' => 12345]], $result);
     }
 
+    /**
+     *
+     */
     public function testTake()
     {
         $userId = 'Slash';

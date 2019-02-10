@@ -5,8 +5,14 @@ use PHPUnit\Framework\TestCase;
 use GameInsight\Gift\Http\Request;
 use GameInsight\Gift\Validator\FriendValidator;
 
+/**
+ * Class FriendValidatorTest
+ */
 class FriendValidatorTest extends TestCase
 {
+    /**
+     * @throws \GameInsight\Gift\Http\Exceptions\BadRequest
+     */
     public function testValidatorPositive()
     {
         $data = ['friend_id' => 'Jimi-Hendrix'];
@@ -18,6 +24,9 @@ class FriendValidatorTest extends TestCase
         $this->assertTrue($result);
     }
 
+    /**
+     * @throws \GameInsight\Gift\Http\Exceptions\BadRequest
+     */
     public function testValidatorNegative()
     {
         $data = ['friend_id' => ''];

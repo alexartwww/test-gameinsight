@@ -11,17 +11,71 @@ use GameInsight\Gift\Http\Response;
 use GameInsight\Gift\Domain\Interfaces\GiftInterface;
 use GameInsight\Gift\Action\Interfaces\ActionInterface;
 
+/**
+ * Class Action
+ * @package GameInsight\Gift\Action
+ */
 class Action
 {
+    /**
+     * @var GiftInterface
+     */
     protected $gift;
+    /**
+     * @var ValidatorCollection
+     */
     protected $validatorCollection;
 
+    /**
+     * Action constructor.
+     * @param GiftInterface $gift
+     * @param ValidatorCollection $validatorCollection
+     */
     public function __construct(GiftInterface $gift, ValidatorCollection $validatorCollection)
     {
         $this->gift = $gift;
         $this->validatorCollection = $validatorCollection;
     }
 
+    /**
+     * @return GiftInterface
+     */
+    public function getGift(): GiftInterface
+    {
+        return $this->gift;
+    }
+
+    /**
+     * @param GiftInterface $gift
+     */
+    public function setGift(GiftInterface $gift)
+    {
+        $this->gift = $gift;
+        return $this;
+    }
+
+    /**
+     * @return ValidatorCollection
+     */
+    public function getValidatorCollection(): ValidatorCollection
+    {
+        return $this->validatorCollection;
+    }
+
+    /**
+     * @param ValidatorCollection $validatorCollection
+     */
+    public function setValidatorCollection(ValidatorCollection $validatorCollection)
+    {
+        $this->validatorCollection = $validatorCollection;
+        return $this;
+    }
+
+    /**
+     * @param Request $request
+     * @return ActionInterface
+     * @throws BadRequest
+     */
     public function validate(Request $request): ActionInterface
     {
         $validationErrors = new ValidationErrorCollection();

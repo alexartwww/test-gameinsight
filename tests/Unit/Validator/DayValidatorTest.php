@@ -5,8 +5,14 @@ use PHPUnit\Framework\TestCase;
 use GameInsight\Gift\Http\Request;
 use GameInsight\Gift\Validator\DayValidator;
 
+/**
+ * Class DayValidatorTest
+ */
 class DayValidatorTest extends TestCase
 {
+    /**
+     * @throws \GameInsight\Gift\Http\Exceptions\BadRequest
+     */
     public function testValidatorPositive()
     {
         $params = ['day_id' => '123'];
@@ -19,6 +25,9 @@ class DayValidatorTest extends TestCase
         $this->assertTrue($result);
     }
 
+    /**
+     * @throws \GameInsight\Gift\Http\Exceptions\BadRequest
+     */
     public function testValidatorNegative()
     {
         $params = ['day_id' => '20001'];

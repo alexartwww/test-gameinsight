@@ -5,8 +5,14 @@ use PHPUnit\Framework\TestCase;
 use GameInsight\Gift\Http\Request;
 use GameInsight\Gift\Validator\UserValidator;
 
+/**
+ * Class UserValidatorTest
+ */
 class UserValidatorTest extends TestCase
 {
+    /**
+     * @throws \GameInsight\Gift\Http\Exceptions\BadRequest
+     */
     public function testValidatorPositive()
     {
         $params = ['user_id' => 'Slash'];
@@ -19,6 +25,9 @@ class UserValidatorTest extends TestCase
         $this->assertTrue($result);
     }
 
+    /**
+     * @throws \GameInsight\Gift\Http\Exceptions\BadRequest
+     */
     public function testValidatorNegative()
     {
         $params = ['user_id' => ''];

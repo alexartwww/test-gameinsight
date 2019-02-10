@@ -53,13 +53,13 @@ try {
         ->addRule(new Rule('POST', '#^/gifts/(?P<user_id>[0-9a-zA-Z\-]+)/(?P<day_id>[0-9]+)$#', $sendGiftAction))
         ->addRule(new Rule('GET', '#^/gifts/(?P<user_id>[0-9a-zA-Z\-]+)$#', $getGiftsAction))
         ->addRule(new Rule('PUT', '#^/gifts/(?P<user_id>[0-9a-zA-Z\-]+)$#', $takeGiftAction))
-    ->route($request)
+        ->route($request)
         ->validate($request)
-            ->process($request, $response)
-                ->send();
+        ->process($request, $response)
+        ->send();
 } catch (GiftException $exception) {
     $response
-        ->addHeader($request->getServerValue('SERVER_PROTOCOL').' 400 Bad Request', true, 400)
+        ->addHeader($request->getServerValue('SERVER_PROTOCOL') . ' 400 Bad Request', true, 400)
         ->addHeader('Status: 400 Bad Request', true, 400)
         ->addHeader('Cache-Control: no-cache,no-store,max-age=0,must-revalidate')
         ->addHeader('Content-Type: application/json')
@@ -67,7 +67,7 @@ try {
         ->send();
 } catch (BadRequest $exception) {
     $response
-        ->addHeader($request->getServerValue('SERVER_PROTOCOL').' 400 Bad Request', true, 400)
+        ->addHeader($request->getServerValue('SERVER_PROTOCOL') . ' 400 Bad Request', true, 400)
         ->addHeader('Status: 400 Bad Request', true, 400)
         ->addHeader('Cache-Control: no-cache,no-store,max-age=0,must-revalidate')
         ->addHeader('Content-Type: application/json')
@@ -75,7 +75,7 @@ try {
         ->send();
 } catch (NotFound $exception) {
     $response
-        ->addHeader($request->getServerValue('SERVER_PROTOCOL').' 404 Not Found', true, 404)
+        ->addHeader($request->getServerValue('SERVER_PROTOCOL') . ' 404 Not Found', true, 404)
         ->addHeader('Status: 404 Not Found', true, 404)
         ->addHeader('Cache-Control: no-cache,no-store,max-age=0,must-revalidate')
         ->addHeader('Content-Type: application/json')
@@ -83,7 +83,7 @@ try {
         ->send();
 } catch (\Exception $exception) {
     $response
-        ->addHeader($request->getServerValue('SERVER_PROTOCOL').' 500 Internal Server Error', true, 500)
+        ->addHeader($request->getServerValue('SERVER_PROTOCOL') . ' 500 Internal Server Error', true, 500)
         ->addHeader('Status: 500 Internal Server Error', true, 500)
         ->addHeader('Cache-Control: no-cache,no-store,max-age=0,must-revalidate')
         ->addHeader('Content-Type: application/json')

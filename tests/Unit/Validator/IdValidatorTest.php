@@ -5,8 +5,14 @@ use PHPUnit\Framework\TestCase;
 use GameInsight\Gift\Http\Request;
 use GameInsight\Gift\Validator\IdValidator;
 
+/**
+ * Class IdValidatorTest
+ */
 class IdValidatorTest extends TestCase
 {
+    /**
+     * @throws \GameInsight\Gift\Http\Exceptions\BadRequest
+     */
     public function testValidatorPositive()
     {
         $data = ['id' => 12345];
@@ -18,6 +24,9 @@ class IdValidatorTest extends TestCase
         $this->assertTrue($result);
     }
 
+    /**
+     * @throws \GameInsight\Gift\Http\Exceptions\BadRequest
+     */
     public function testValidatorNegative()
     {
         $data = ['id' => -12345];

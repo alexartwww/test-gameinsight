@@ -7,8 +7,18 @@ use GameInsight\Gift\Http\Request;
 use GameInsight\Gift\Http\Response;
 use GameInsight\Gift\Action\Interfaces\ActionInterface;
 
+/**
+ * Class TakeGift
+ * @package GameInsight\Gift\Action
+ */
 class TakeGift extends Action implements ActionInterface
 {
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return Response
+     * @throws \GameInsight\Gift\Http\Exceptions\BadRequest
+     */
     public function process(Request $request, Response $response): Response
     {
         $this->gift->take(

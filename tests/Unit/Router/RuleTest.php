@@ -6,8 +6,14 @@ use GameInsight\Gift\Router\Rule;
 use GameInsight\Gift\Http\Response;
 use GameInsight\Gift\Http\Request;
 
+/**
+ * Class RuleTest
+ */
 class RuleTest extends TestCase
 {
+    /**
+     * @throws \GameInsight\Gift\Http\Exceptions\BadRequest
+     */
     public function testPositive()
     {
         $method = 'GET';
@@ -35,6 +41,9 @@ class RuleTest extends TestCase
         $this->assertEquals($response, $rule->getAction($request)->process($request, $response));
     }
 
+    /**
+     * @throws \GameInsight\Gift\Http\Exceptions\BadRequest
+     */
     public function testNegative()
     {
         $method = 'GET';

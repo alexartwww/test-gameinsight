@@ -6,17 +6,37 @@ namespace GameInsight\Gift\Domain;
 use GameInsight\Gift\Domain\Interfaces\GiftInterface;
 use GameInsight\Gift\Domain\Exceptions\GiftException;
 
+/**
+ * Class Gift
+ * @package GameInsight\Gift\Domain
+ */
 class Gift implements GiftInterface
 {
+    /**
+     * @var
+     */
     protected $dbh;
+    /**
+     * @var int
+     */
     protected $expireDay = 7;
 
+    /**
+     * Gift constructor.
+     * @param $dbh
+     * @param int $expireDay
+     */
     public function __construct($dbh, int $expireDay)
     {
         $this->dbh = $dbh;
         $this->expireDay = $expireDay;
     }
 
+    /**
+     * @param string $userId
+     * @param int $dayId
+     * @return bool
+     */
     public function checkSendAbility(string $userId, int $dayId)
     {
         $sth = $this->dbh->prepare('
@@ -31,6 +51,14 @@ class Gift implements GiftInterface
         return $sth->fetchColumn() == 0;
     }
 
+    /**
+     * @param string $userId
+     * @param int $dayId
+     * @param string $friendId
+     * @param int $giftId
+     * @return bool
+     * @throws GiftException
+     */
     public function send(string $userId, int $dayId, string $friendId, int $giftId): bool
     {
         if (!$this->checkSendAbility($userId, $dayId)) {
@@ -58,6 +86,10 @@ class Gift implements GiftInterface
         ]);
     }
 
+    /**
+     * @param string $userId
+     * @return array
+     */
     public function view(string $userId): array
     {
         $sth = $this->dbh->prepare('
@@ -81,6 +113,11 @@ class Gift implements GiftInterface
         return $result;
     }
 
+    /**
+     * @param string $userId
+     * @param int $id
+     * @return bool
+     */
     public function take(string $userId, int $id): bool
     {
         $sth = $this->dbh->prepare('
@@ -99,6 +136,10 @@ class Gift implements GiftInterface
         ]);
     }
 
+    /**
+     * @param int $currentDayId
+     * @return bool
+     */
     public function expire(int $currentDayId): bool
     {
         $sth = $this->dbh->prepare('

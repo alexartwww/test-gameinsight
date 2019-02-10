@@ -6,13 +6,31 @@ use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use GameInsight\Gift\Config;
 
+/**
+ * Class ApiTest
+ */
 class ApiTest extends TestCase
 {
+    /**
+     * @var string
+     */
     protected $base_uri = 'http://nginx:80';
+    /**
+     * @var null
+     */
     protected $client = null;
+    /**
+     * @var null
+     */
     protected $nowDayId = null;
+    /**
+     * @var null
+     */
     protected $expiredDayId = null;
 
+    /**
+     *
+     */
     public function setUp()
     {
         $this->client = new Client([
@@ -23,6 +41,10 @@ class ApiTest extends TestCase
         $this->expiredDayId = intval(time() / 86400) - Config::$expireDays - 1;
     }
 
+    /**
+     * @param string $userId
+     * @return array
+     */
     public function view(string $userId): array
     {
         $response = $this->client->get('gifts/' . $userId, [
@@ -39,6 +61,12 @@ class ApiTest extends TestCase
         return $body->data;
     }
 
+    /**
+     * @param string $userId
+     * @param int $dayId
+     * @param string $friendId
+     * @param int $giftId
+     */
     public function send(string $userId, int $dayId, string $friendId, int $giftId)
     {
         $response = $this->client->post('gifts/' . $userId . '/' . $dayId, [
@@ -58,6 +86,10 @@ class ApiTest extends TestCase
         $this->assertEquals(0, $body->status);
     }
 
+    /**
+     * @param string $userId
+     * @param int $id
+     */
     public function take(string $userId, int $id)
     {
         $response = $this->client->put('gifts/' . $userId, [
@@ -76,6 +108,12 @@ class ApiTest extends TestCase
         $this->assertEquals(0, $body->status);
     }
 
+    /**
+     * @param string $column
+     * @param $value
+     * @param array $data
+     * @return mixed|null
+     */
     public function findGiftBy(string $column, $value, array $data)
     {
         $foundGift = null;
@@ -87,6 +125,9 @@ class ApiTest extends TestCase
         return $foundGift;
     }
 
+    /**
+     *
+     */
     public function testView()
     {
         $userId = 'Jimi-Hendrix';
@@ -100,6 +141,9 @@ class ApiTest extends TestCase
         $this->assertEquals(5, $gift->gift_id);
     }
 
+    /**
+     *
+     */
     public function testSend()
     {
         $userId = 'Jimi-Hendrix';
@@ -115,6 +159,9 @@ class ApiTest extends TestCase
         $this->assertNotEquals(null, $gift);
     }
 
+    /**
+     *
+     */
     public function testSendExpired()
     {
         $userId = 'Brian-May';
@@ -130,6 +177,9 @@ class ApiTest extends TestCase
         $this->assertEquals(null, $gift);
     }
 
+    /**
+     *
+     */
     public function testTake()
     {
         $userId = 'Brian-May';

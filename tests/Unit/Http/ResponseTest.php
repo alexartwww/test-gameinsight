@@ -4,8 +4,14 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 use GameInsight\Gift\Http\Response;
 
+/**
+ * Class ResponseTest
+ */
 class ResponseTest extends TestCase
 {
+    /**
+     *
+     */
     public function testPositive()
     {
         $headers = [
@@ -15,7 +21,7 @@ class ResponseTest extends TestCase
             ['header' => 'Content-Type: application/json', 'replace' => true, 'http_response_code' => 200],
         ];
         $body = '{"friend_id":"Jimi-Hendrix","gift_id":12345}';
-        $bodyJson = json_decode($body,true);
+        $bodyJson = json_decode($body, true);
 
         $response = new Response();
         $response->setBody($body);

@@ -5,8 +5,14 @@ use PHPUnit\Framework\TestCase;
 use GameInsight\Gift\Http\Request;
 use GameInsight\Gift\Validator\AuthValidator;
 
+/**
+ * Class AuthValidatorTest
+ */
 class AuthValidatorTest extends TestCase
 {
+    /**
+     * @throws \GameInsight\Gift\Http\Exceptions\BadRequest
+     */
     public function testValidatorPositive()
     {
         $auth = 'code';
@@ -19,10 +25,13 @@ class AuthValidatorTest extends TestCase
         $this->assertTrue($result);
     }
 
+    /**
+     * @throws \GameInsight\Gift\Http\Exceptions\BadRequest
+     */
     public function testValidatorNegative()
     {
         $auth = 'code';
-        $server = ['HTTP_X_AUTHORIZATION' => $auth.'2'];
+        $server = ['HTTP_X_AUTHORIZATION' => $auth . '2'];
         $request = new Request($server, [], [], [], '');
 
         $validator = new AuthValidator(['auth' => $auth]);
