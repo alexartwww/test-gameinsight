@@ -4,26 +4,38 @@ declare(strict_types=1);
 namespace GameInsight\Gift\Domain;
 
 use GameInsight\Gift\Domain\Interfaces\GiftInterface;
+use GameInsight\Gift\Domain\Exceptions\GiftException;
 
 class Gift implements GiftInterface
 {
     protected $dbh;
     protected $expireDay = 7;
 
-    public function __construct(\PDO $dbh, int $expireDay)
+    public function __construct($dbh, int $expireDay)
     {
         $this->dbh = $dbh;
         $this->expireDay = $expireDay;
     }
 
-    public function setExpireDay(int $expireDay): Gift
+    public function checkSendAbility(string $userId, int $dayId)
     {
-        $this->expireDay = $expireDay;
-        return $this;
+        $sth = $this->dbh->prepare('
+            SELECT
+              COUNT(`id`) AS `num`
+            FROM
+              `gifts`
+            WHERE
+              `user_id` = :user_id
+              AND `day_id` = :day_id');
+        $sth->execute([':user_id' => $userId, ':day_id' => $dayId]);
+        return $sth->fetchColumn() == 0;
     }
 
     public function send(string $userId, int $dayId, string $friendId, int $giftId): bool
     {
+        if (!$this->checkSendAbility($userId, $dayId)) {
+            throw new GiftException('User ' . $userId . ' already send gift at day ' . $dayId);
+        }
         $sth = $this->dbh->prepare('
             INSERT INTO `gifts` (
               `id`,
@@ -42,7 +54,7 @@ class Gift implements GiftInterface
             ':friend_id' => $friendId,
             ':gift_id' => $giftId,
             ':is_taken' => 0,
-            ':is_valid' => ($dayId >= intval(time()/86400) - $this->expireDay) ? 1 : 0,
+            ':is_valid' => ($dayId >= intval(time() / 86400) - $this->expireDay) ? 1 : 0,
         ]);
     }
 
@@ -51,7 +63,7 @@ class Gift implements GiftInterface
         $sth = $this->dbh->prepare('
             SELECT
               `id`,
-              `user_id` AS friend_id,
+              `user_id` AS `friend_id`,
               `gift_id`
             FROM
               `gifts`
@@ -61,7 +73,7 @@ class Gift implements GiftInterface
               AND `is_taken` = 0');
         $sth->execute([':user_id' => $userId]);
         $result = [];
-        while($row = $sth->fetch (\PDO::FETCH_ASSOC)) {
+        while ($row = $sth->fetch(\PDO::FETCH_ASSOC)) {
             $row['id'] = intval($row['id']);
             $row['gift_id'] = intval($row['gift_id']);
             $result[] = $row;

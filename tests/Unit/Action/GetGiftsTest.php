@@ -14,13 +14,17 @@ class GetGiftsTest extends TestCase
     public function testPositive()
     {
         $data = [['id' => 1, 'friend_id' => 'Jimi-Hendrix', 'gift_id' => 1]];
+        $params = ['user_id' => 'Slash'];
         $request = new Request(['SERVER_PROTOCOL' => 'HTTP 1.1']);
-        $request->setParams(['user_id' => 'Slash']);
+        $request->setParams($params);
         $response = new Response();
         $gift = $this->getMockBuilder(\GameInsight\Gift\Domain\Interfaces\GiftInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
         $gift->method('view')->willReturn($data);
+        $gift->expects($this->once())
+            ->method('view')
+            ->with($this->equalTo($params['user_id']));
         $action = new GetGifts($gift, new ValidatorCollection());
 
         $response = $action->validate($request)->process($request, $response);
@@ -42,8 +46,9 @@ class GetGiftsTest extends TestCase
     public function testNegative()
     {
         $data = [['id' => 1, 'friend_id' => 'Jimi-Hendrix', 'gift_id' => 1]];
+        $params = ['user_id' => 'Slash'];
         $request = new Request(['SERVER_PROTOCOL' => 'HTTP 1.1']);
-        $request->setParams(['user_id' => 'Slash']);
+        $request->setParams($params);
         $response = new Response();
         $gift = $this->getMockBuilder(\GameInsight\Gift\Domain\Interfaces\GiftInterface::class)
             ->disableOriginalConstructor()

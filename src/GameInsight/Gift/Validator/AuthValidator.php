@@ -10,11 +10,11 @@ class AuthValidator extends Validator implements ValidatorInterface
 {
     public function isValid(Request $request): bool
     {
-        return true;
-    }
-
-    public function getValidationError(): ValidationError
-    {
-        return $this->validationError;
+        if ($this->config['auth'] != $request->getHeader('X_AUTHORIZATION')) {
+            $this->validationError = new ValidationError('X-Authorization', 'Wrong authorization code');
+            return false;
+        } else {
+            return true;
+        }
     }
 }

@@ -10,12 +10,11 @@ class UserValidator extends Validator implements ValidatorInterface
 {
     public function isValid(Request $request): bool
     {
-        return true;
+        if ($request->getParamValue('user_id') == '' || strlen($request->getParamValue('user_id')) > 36) {
+            $this->validationError = new ValidationError('user_id', 'user_id must be not empty and length must be less or equal 36 characters');
+            return false;
+        } else {
+            return true;
+        }
     }
-
-    public function getValidationError(): ValidationError
-    {
-        return $this->validationError;
-    }
-
 }

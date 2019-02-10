@@ -11,6 +11,7 @@ use GameInsight\Gift\Validator\UserValidator;
 use GameInsight\Gift\Validator\FriendValidator;
 use GameInsight\Gift\Validator\DayValidator;
 use GameInsight\Gift\Validator\AuthValidator;
+use GameInsight\Gift\Validator\IdValidator;
 use GameInsight\Gift\Router\Router;
 use GameInsight\Gift\Router\Rule;
 use GameInsight\Gift\Http\Request;
@@ -29,7 +30,7 @@ try {
     $sendGiftAction = new SendGift(
         $gift,
         (new ValidatorCollection())
-            ->add(new AuthValidator())
+            ->add(new AuthValidator(['auth' => Config::$auth]))
             ->add(new DayValidator())
             ->add(new UserValidator())
             ->add(new FriendValidator())
@@ -39,14 +40,13 @@ try {
         $gift,
         (new ValidatorCollection())
             ->add(new UserValidator())
-            ->add(new GiftValidator())
     );
     $takeGiftAction = new TakeGift(
         $gift,
         (new ValidatorCollection())
-            ->add(new AuthValidator())
+            ->add(new AuthValidator(['auth' => Config::$auth]))
             ->add(new UserValidator())
-            ->add(new GiftValidator())
+            ->add(new IdValidator())
     );
 
     (new Router())

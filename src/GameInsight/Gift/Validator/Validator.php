@@ -7,7 +7,13 @@ use GameInsight\Gift\Http\Request;
 
 class Validator
 {
+    protected $config=[];
     protected $validationError;
+
+    public function __construct(array $config = [])
+    {
+        $this->config = $config;
+    }
 
     public function isValid(Request $request): bool
     {
