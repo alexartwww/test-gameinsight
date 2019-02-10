@@ -1,4 +1,19 @@
 {
+  "name": "alexartwww/test-gameinsight",
+  "description": "A test for gameinsight job",
+  "type": "project",
+  "keywords": [
+    "test",
+    "gameinsight"
+  ],
+  "license": "GPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Artem Aleksashkin",
+      "email": "artem@aleksashkin.com"
+    }
+  ],
+  "version": "1.0.0",
   "require": {
     "php": ">=7.0",
     "guzzlehttp/guzzle": "~6.0"
