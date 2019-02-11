@@ -62,7 +62,7 @@ class Gift implements GiftInterface
     public function send(string $userId, int $dayId, string $friendId, int $giftId): bool
     {
         if (!$this->checkSendAbility($userId, $dayId)) {
-            throw new GiftException('User ' . $userId . ' already send gift at day ' . $dayId);
+            throw new GiftException('User ' . $userId . ' already send gift at day ' . $dayId, 1);
         }
         $sth = $this->dbh->prepare('
             INSERT INTO `gifts` (

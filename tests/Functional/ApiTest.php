@@ -36,6 +36,7 @@ class ApiTest extends TestCase
         $this->client = new Client([
             'base_uri' => $this->base_uri,
             'timeout' => 2.0,
+            'http_errors' => false,
         ]);
         $this->nowDayId = intval(time() / 86400);
         $this->expiredDayId = intval(time() / 86400) - Config::$expireDays - 1;
@@ -61,12 +62,6 @@ class ApiTest extends TestCase
         return $body->data;
     }
 
-    /**
-     * @param string $userId
-     * @param int $dayId
-     * @param string $friendId
-     * @param int $giftId
-     */
     public function send(string $userId, int $dayId, string $friendId, int $giftId)
     {
         $response = $this->client->post('gifts/' . $userId . '/' . $dayId, [
@@ -79,17 +74,17 @@ class ApiTest extends TestCase
                 'gift_id' => $giftId,
             ],
         ]);
-        $this->assertEquals(201, $response->getStatusCode());
+        $this->assertContains($response->getStatusCode(), [201, 400]);
 
         $body = json_decode($response->getBody()->getContents());
 
-        $this->assertEquals(0, $body->status);
+        $this->assertContains($body->status, [0, 1]);
+        if ($body->status == 1) {
+            $this->assertEquals("User " . $userId . " already send gift at day " . $dayId . "", $body->message);
+        }
+        return $body;
     }
 
-    /**
-     * @param string $userId
-     * @param int $id
-     */
     public function take(string $userId, int $id)
     {
         $response = $this->client->put('gifts/' . $userId, [
@@ -106,6 +101,7 @@ class ApiTest extends TestCase
         $body = json_decode($response->getBody()->getContents());
 
         $this->assertEquals(0, $body->status);
+        return $body;
     }
 
     /**
@@ -151,7 +147,10 @@ class ApiTest extends TestCase
         $friendId = 'Slash';
         $giftId = time();
 
-        $this->send($userId, $dayId, $friendId, $giftId);
+        $sendResult = $this->send($userId, $dayId, $friendId, $giftId);
+        if ($sendResult->status == 1) {
+            $this->markTestSkipped('Please restore original database to run API test');
+        }
 
         $data = $this->view($friendId);
         $this->assertGreaterThan(0, count($data));
@@ -169,7 +168,7 @@ class ApiTest extends TestCase
         $friendId = 'Paul-Gilbert';
         $giftId = time();
 
-        $this->send($userId, $dayId, $friendId, $giftId);
+        $sendResult = $this->send($userId, $dayId, $friendId, $giftId);
 
         $data = $this->view($friendId);
         $this->assertGreaterThan(0, count($data));
@@ -187,7 +186,10 @@ class ApiTest extends TestCase
         $friendId = 'Paul-Gilbert';
         $giftId = time();
 
-        $this->send($userId, $dayId, $friendId, $giftId);
+        $sendResult = $this->send($userId, $dayId, $friendId, $giftId);
+        if ($sendResult->status == 1) {
+            $this->markTestSkipped('Please restore original database to run API test');
+        }
         $data = $this->view($friendId);
         $this->assertGreaterThan(0, count($data));
         $gift = $this->findGiftBy('gift_id', $giftId, $data);
@@ -197,5 +199,6 @@ class ApiTest extends TestCase
         $data = $this->view($friendId);
         $gift = $this->findGiftBy('gift_id', $giftId, $data);
         $this->assertEquals(null, $gift);
+
     }
 }
