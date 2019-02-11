@@ -62,6 +62,13 @@ class ApiTest extends TestCase
         return $body->data;
     }
 
+    /**
+     * @param string $userId
+     * @param int $dayId
+     * @param string $friendId
+     * @param int $giftId
+     * @return mixed
+     */
     public function send(string $userId, int $dayId, string $friendId, int $giftId)
     {
         $response = $this->client->post('gifts/' . $userId . '/' . $dayId, [
@@ -80,11 +87,16 @@ class ApiTest extends TestCase
 
         $this->assertContains($body->status, [0, 1]);
         if ($body->status == 1) {
-            $this->assertEquals("User " . $userId . " already send gift at day " . $dayId . "", $body->message);
+            $this->assertEquals("User " . $userId . " already send gift at day " . $dayId, $body->message);
         }
         return $body;
     }
 
+    /**
+     * @param string $userId
+     * @param int $id
+     * @return mixed
+     */
     public function take(string $userId, int $id)
     {
         $response = $this->client->put('gifts/' . $userId, [
@@ -168,12 +180,36 @@ class ApiTest extends TestCase
         $friendId = 'Paul-Gilbert';
         $giftId = time();
 
-        $sendResult = $this->send($userId, $dayId, $friendId, $giftId);
+        $this->send($userId, $dayId, $friendId, $giftId);
 
         $data = $this->view($friendId);
         $this->assertGreaterThan(0, count($data));
         $gift = $this->findGiftBy('gift_id', $giftId, $data);
         $this->assertEquals(null, $gift);
+    }
+
+
+    /**
+     *
+     */
+    public function testBlockSendTwice()
+    {
+        $userId = 'Paul-Gilbert';
+        $dayId = $this->nowDayId;
+        $friendId = 'Slash';
+        $giftId = time();
+
+        $this->send($userId, $dayId, $friendId, $giftId);
+
+        $data = $this->view($friendId);
+        $this->assertGreaterThan(0, count($data));
+        $gift = $this->findGiftBy('gift_id', $giftId, $data);
+        $this->assertNotEquals(null, $gift);
+
+        $sendResult = $this->send($userId, $dayId, $friendId, $giftId);
+
+        $this->assertEquals(1, $sendResult->status);
+        $this->assertEquals("User " . $userId . " already send gift at day " . $dayId, $sendResult->message);
     }
 
     /**
