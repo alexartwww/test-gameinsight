@@ -199,7 +199,10 @@ class ApiTest extends TestCase
         $friendId = 'Slash';
         $giftId = time();
 
-        $this->send($userId, $dayId, $friendId, $giftId);
+        $sendResult = $this->send($userId, $dayId, $friendId, $giftId);
+        if ($sendResult->status == 1) {
+            $this->markTestSkipped('Please restore original database to run API test');
+        }
 
         $data = $this->view($friendId);
         $this->assertGreaterThan(0, count($data));
