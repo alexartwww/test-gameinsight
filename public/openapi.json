@@ -14,14 +14,14 @@
     "/gifts/{user_id}/{day_id}": {
       "post": {
         "summary": "Отправить подарок другу",
-        "operationId": "sendGift",
+        "operationId": "SendGift",
         "parameters": [
           {
-            "name": "auth",
-            "in": "query",
+            "name": "X-Authorization",
+            "in": "header",
             "required": true,
             "schema": {
-              "type": "integer"
+              "type": "string"
             }
           },
           {
@@ -29,7 +29,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "type": "integer"
+              "type": "string"
             }
           },
           {
@@ -64,101 +64,148 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    }
+                  }
                 }
               }
             }
           },
-          "404": {
-            "$ref": "#/components/responses/ErrorList"
-          },
           "400": {
-            "$ref": "#/components/responses/ErrorList"
+            "$ref": "#/components/responses/Error400"
           }
         }
       }
     },
     "/gifts/{user_id}": {
       "get": {
-        "summary": "Получение списка своих подарков",
-        "operationId": "getGifts",
+        "summary": "Получение списка подарков",
+        "operationId": "GetGifts",
         "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
             "description": "Успех",
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "404": {
-            "$ref": "#/components/responses/ErrorList"
-          },
-          "400": {
-            "$ref": "#/components/responses/ErrorList"
-          }
-        }
-      },
-      "put": {
-        "summary": "Добавление расписания самолета с пересадками",
-        "operationId": "get",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {}
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Создан",
-            "content": {
-              "application/json": {
                 "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "friend_id": {
+                            "type": "string"
+                          },
+                          "gift_id": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
           },
           "400": {
-            "$ref": "#/components/responses/ErrorList"
+            "$ref": "#/components/responses/Error400"
+          }
+        }
+      },
+      "put": {
+        "summary": "Принять свой подарок",
+        "operationId": "TakeGift",
+        "parameters": [
+          {
+            "name": "X-Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Успех",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error400"
           }
         }
       }
     }
   },
   "components": {
-    "schemas": {
-      "Error": {
-        "properties": {
-          "field": {
-            "type": "string"
-          },
-          "code": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "ErrorList": {
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        },
-        "type": "object"
-      }
-    },
     "responses": {
-      "ErrorList": {
-        "description": "Ошибка валидации",
+      "Error400": {
+        "description": "Неверный запрос",
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/ErrorList"
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
             }
           }
         }
